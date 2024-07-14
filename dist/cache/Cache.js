@@ -45,7 +45,7 @@ class Cache {
      * The full path of base directory and directory
      */
     get path() {
-        return path_1.join(this.basePath, this._dir);
+        return (0, path_1.join)(this.basePath, this._dir);
     }
     /**
      * Set the options for cache
@@ -57,7 +57,7 @@ class Cache {
             this.timeout = options.timeout;
         if (options.path) {
             this.basePath = options.path;
-            fs_1.mkdirSync(this.path);
+            (0, fs_1.mkdirSync)(this.path);
         }
     }
     /**
@@ -71,7 +71,7 @@ class Cache {
         validation_1.CacheValidation.validateResource(resource);
         this._checkNotExist(identifier);
         const encoder = new prism_media_1.opus.Encoder({ rate: 48000, channels: 2, frameSize: 960 });
-        const writeStream = fs_1.createWriteStream(path_1.join(this.path, identifier), { emitClose: true });
+        const writeStream = (0, fs_1.createWriteStream)((0, path_1.join)(this.path, identifier), { emitClose: true });
         this._resources.set(identifier, resource);
         this._timeouts.set(identifier, setTimeout(this._deleteCache.bind(this, identifier), this.timeout));
         this._packets.set(identifier, []);
@@ -85,7 +85,7 @@ class Cache {
                 this._deleteCache(identifier);
             }
         });
-        stream_1.pipeline(encoder, new PacketReader_1.PacketReader(this._packets.get(identifier)), writeStream, noop_1.noop);
+        (0, stream_1.pipeline)(encoder, new PacketReader_1.PacketReader(this._packets.get(identifier)), writeStream, noop_1.noop);
         return encoder;
     }
     /**
@@ -98,7 +98,7 @@ class Cache {
         validation_1.CacheValidation.validateIdentifier(identifier);
         validation_1.CacheValidation.validateSeconds(startOnSeconds);
         this._checkExist(identifier);
-        const file = promises_1.open(path_1.join(this.path, identifier), "r");
+        const file = (0, promises_1.open)((0, path_1.join)(this.path, identifier), "r");
         const reader = new CacheReader_1.CacheReader(this._packets.get(identifier), file, Math.floor(startOnSeconds * 1000));
         const decoder = new prism_media_1.opus.Decoder({ rate: 48000, channels: 2, frameSize: 960 });
         this._reader.set(decoder, reader);
@@ -109,7 +109,7 @@ class Cache {
             this._removeUser(identifier);
             reader.destroy();
         });
-        stream_1.pipeline(reader, decoder, noop_1.noop);
+        (0, stream_1.pipeline)(reader, decoder, noop_1.noop);
         return decoder;
     }
     /**
@@ -151,7 +151,7 @@ class Cache {
         this._users.delete(identifier);
         if (!writeStream.destroyed)
             writeStream.destroy();
-        promises_1.unlink(path_1.join(this.path, identifier));
+        (0, promises_1.unlink)((0, path_1.join)(this.path, identifier));
     }
     /**
      * @internal

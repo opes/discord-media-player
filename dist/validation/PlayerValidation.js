@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePlayer = exports.validateSourceType = exports.validateUrlOrLocation = exports.validateSeconds = exports.validateVolume = exports.validateFilters = exports.validateConnection = exports.validateManager = void 0;
+exports.validateManager = validateManager;
+exports.validateConnection = validateConnection;
+exports.validateFilters = validateFilters;
+exports.validateVolume = validateVolume;
+exports.validateSeconds = validateSeconds;
+exports.validateUrlOrLocation = validateUrlOrLocation;
+exports.validateSourceType = validateSourceType;
+exports.validatePlayer = validatePlayer;
 const PlayerError_1 = require("./PlayerError");
 const AudioManager_1 = require("../audio/AudioManager");
 const voice_1 = require("@discordjs/voice");
@@ -85,7 +92,6 @@ function validateManager(manager) {
     if (!(manager instanceof AudioManager_1.AudioManager))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("AudioManager", "AudioPlayer.manager", manager));
 }
-exports.validateManager = validateManager;
 /**
  * Validate the voice connection
  * @param connection The voice connection
@@ -96,7 +102,6 @@ function validateConnection(connection) {
     if (!(connection instanceof voice_1.VoiceConnection))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("VoiceConnection", "AudioPlayer.connection", connection));
 }
-exports.validateConnection = validateConnection;
 /**
  * Validate the audio filters
  * @param filter The audio filters
@@ -114,7 +119,6 @@ function validateFilters(filter) {
             throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("string", `AudioPlayer.filter[${key}]`, typeof filter[key]));
     }
 }
-exports.validateFilters = validateFilters;
 /**
  * Validate the volume
  * @param volume The volume
@@ -123,7 +127,6 @@ function validateVolume(volume) {
     if (typeof volume !== "number")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("number", "AudioPlayer.volume", typeof volume));
 }
-exports.validateVolume = validateVolume;
 /**
  * Validate the seconds
  * @param seconds The seconds
@@ -134,7 +137,6 @@ function validateSeconds(seconds) {
     if (!Number.isInteger(seconds))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.NotInteger(seconds));
 }
-exports.validateSeconds = validateSeconds;
 /**
  * Validate the url or location
  * @param urlOrLocation The url or location
@@ -143,7 +145,6 @@ function validateUrlOrLocation(urlOrLocation) {
     if (typeof urlOrLocation !== "string")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("string", "AudioPlayer.urlOrLocation", typeof urlOrLocation));
 }
-exports.validateUrlOrLocation = validateUrlOrLocation;
 /**
  * Validate the source type
  * @param sourceType The source type
@@ -154,7 +155,6 @@ function validateSourceType(sourceType) {
     if (!Number.isInteger(sourceType))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.NotInteger(sourceType));
 }
-exports.validateSourceType = validateSourceType;
 function validatePlayer(player, where) {
     if (typeof player !== "object" || player === null)
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("object", where, player === null ? "null" : typeof player));
@@ -223,4 +223,3 @@ function validatePlayer(player, where) {
     else if (typeof player._switchCache !== "function")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("function", `${where}._switchCache`, typeof player._switchCache));
 }
-exports.validatePlayer = validatePlayer;

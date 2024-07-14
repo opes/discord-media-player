@@ -27,7 +27,7 @@ class CacheManagerImpl {
         /**
          * @internal
          */
-        this.deleter = child_process_1.fork(require.resolve("./CacheDeleter"), { detached: true });
+        this.deleter = (0, child_process_1.fork)(require.resolve("./CacheDeleter"), { detached: true });
         this.deleter.unref();
     }
     /**

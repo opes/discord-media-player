@@ -12,8 +12,8 @@ const tiny_typed_emitter_1 = require("tiny-typed-emitter");
 const path_1 = require("path");
 const os_1 = require("os");
 function initCache(dir) {
-    if (!fs_1.existsSync(dir))
-        fs_1.mkdirSync(dir);
+    if (!(0, fs_1.existsSync)(dir))
+        (0, fs_1.mkdirSync)(dir);
 }
 function defaultCreateAudioPlayerType() {
     return new AudioPlayerImpl_1.AudioPlayerImpl();
@@ -39,11 +39,11 @@ class AudioManager extends tiny_typed_emitter_1.TypedEmitter {
         this.soundcloud = soundcloudClient ?? soundcloud_downloader_1.default;
         this._createAudioPlayer = createAudioPlayer || defaultCreateAudioPlayerType;
         if (cache) {
-            const path = cacheDir ?? os_1.tmpdir();
+            const path = cacheDir ?? (0, os_1.tmpdir)();
             const timeout = cacheTimeout ?? 1000 * 60 * 10;
             initCache(path);
             cache.setTimeout(timeout);
-            cache.setPath(fs_1.mkdtempSync(path_1.join(path, "node-discord-media-player-")));
+            cache.setPath((0, fs_1.mkdtempSync)((0, path_1.join)(path, "node-discord-media-player-")));
         }
     }
     /**

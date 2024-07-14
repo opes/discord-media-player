@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateDecoder = exports.validateSeconds = exports.validateResource = exports.validateIdentifier = exports.validateOptions = exports.validateDir = void 0;
+exports.validateDir = validateDir;
+exports.validateOptions = validateOptions;
+exports.validateIdentifier = validateIdentifier;
+exports.validateResource = validateResource;
+exports.validateSeconds = validateSeconds;
+exports.validateDecoder = validateDecoder;
 const PlayerError_1 = require("./PlayerError");
 const Resource_1 = require("../util/Resource");
 const prism_media_1 = require("prism-media");
@@ -12,7 +17,6 @@ function validateDir(dir) {
     if (typeof dir !== "string")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("string", "Cache.dir", typeof dir));
 }
-exports.validateDir = validateDir;
 /**
  * Validate the cache options
  * @param options The cache options
@@ -32,7 +36,6 @@ function validateOptions(options) {
             throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.NotInteger(options.timeout));
     }
 }
-exports.validateOptions = validateOptions;
 /**
  * Validate the cache identifier
  * @param identifier The cache identifier
@@ -41,7 +44,6 @@ function validateIdentifier(identifier) {
     if (typeof identifier !== "string")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("string", "Cache.identifier", typeof identifier));
 }
-exports.validateIdentifier = validateIdentifier;
 /**
  * Validate the cache resource
  * @param resource The cache resource
@@ -52,7 +54,6 @@ function validateResource(resource) {
     else if (!(resource instanceof Resource_1.Resource))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("Resource", "Cache.resource", resource));
 }
-exports.validateResource = validateResource;
 /**
  * Validate the seconds
  * @param seconds Where to start the audio (in seconds)
@@ -61,11 +62,9 @@ function validateSeconds(seconds) {
     if (typeof seconds !== "number")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("number", "Cache.seconds", typeof seconds));
 }
-exports.validateSeconds = validateSeconds;
 function validateDecoder(decoder) {
     if (typeof decoder !== "object" || decoder === null)
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("object", "Cache.getReader.decoder", decoder === null ? "null" : typeof decoder));
     else if (!(decoder instanceof prism_media_1.opus.Decoder))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("OpusDecoder", "Cache.getReader.decoder", decoder));
 }
-exports.validateDecoder = validateDecoder;

@@ -1,7 +1,8 @@
 "use strict";
 /* eslint-disable @typescript-eslint/no-namespace */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PlayerError = exports.ErrorMessages = exports.validateError = void 0;
+exports.PlayerError = exports.ErrorMessages = void 0;
+exports.validateError = validateError;
 /**
  * Validate the error of PlayerError
  * @param error The error
@@ -16,7 +17,6 @@ function validateError(error) {
     else if (typeof error.code !== "number")
         throw new PlayerError(ErrorMessages.Expecting("number", "PlayerError.error.code", typeof error.code));
 }
-exports.validateError = validateError;
 /**
  * Available built-in error messages for PlayerError
  */
@@ -149,7 +149,7 @@ var ErrorMessages;
         message: "Queue is empty",
         code: 40
     };
-})(ErrorMessages = exports.ErrorMessages || (exports.ErrorMessages = {}));
+})(ErrorMessages || (exports.ErrorMessages = ErrorMessages = {}));
 /**
  * Custom error for discord-media-player
  */

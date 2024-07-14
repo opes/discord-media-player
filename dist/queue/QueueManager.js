@@ -101,7 +101,7 @@ class QueueManager extends tiny_typed_emitter_1.TypedEmitter {
                 : "search";
         if (type === "video") {
             const videoID = exports.VIDEO_URL.exec(options.query)[1];
-            const { details } = await youtube_scrapper_1.getVideoInfo(`https://www.youtube.com/watch?v=${videoID}`);
+            const { details } = await (0, youtube_scrapper_1.getVideoInfo)(`https://www.youtube.com/watch?v=${videoID}`);
             tracks.push(new Track_1.Track({
                 sourceType: 0,
                 urlOrLocation: details.url,
@@ -110,7 +110,7 @@ class QueueManager extends tiny_typed_emitter_1.TypedEmitter {
         }
         else if (type === "playlist") {
             const playlistID = exports.PLAYLIST_URL.exec(options.query)[1];
-            const playlist = await youtube_scrapper_1.getPlaylistInfo(`https://www.youtube.com/playlist?list=${playlistID}`, { full: options.fullPlaylist ?? false });
+            const playlist = await (0, youtube_scrapper_1.getPlaylistInfo)(`https://www.youtube.com/playlist?list=${playlistID}`, { full: options.fullPlaylist ?? false });
             for (const video of playlist.tracks) {
                 tracks.push(new Track_1.Track({
                     sourceType: 0,
@@ -120,7 +120,7 @@ class QueueManager extends tiny_typed_emitter_1.TypedEmitter {
             }
         }
         else {
-            const searchResult = await youtube_scrapper_1.search(options.query);
+            const searchResult = await (0, youtube_scrapper_1.search)(options.query);
             for (const video of searchResult.videos) {
                 tracks.push(new Track_1.Track({
                     sourceType: 0,

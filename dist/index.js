@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -29,7 +33,7 @@ const fs_1 = require("fs");
 /**
  * The current installed version of the package
  */
-exports.version = JSON.parse(fs_1.readFileSync(require.resolve("../package.json"), "utf-8")).version;
+exports.version = JSON.parse((0, fs_1.readFileSync)(require.resolve("../package.json"), "utf-8")).version;
 __exportStar(require("./audio/AudioManager"), exports);
 __exportStar(require("./audio/AudioPlayer"), exports);
 __exportStar(require("./audio/AudioPlayerImpl"), exports);
@@ -54,7 +58,7 @@ var Util;
     Util.Resource = _Resource.Resource;
     Util.Skipper = _Skipper.Skipper;
     Util.SourceType = _SourceType.SourceType;
-})(Util = exports.Util || (exports.Util = {}));
+})(Util || (exports.Util = Util = {}));
 const _downloadMedia = __importStar(require("./soundcloudUtil/downloadMedia"));
 const _transcoding = __importStar(require("./soundcloudUtil/transcoding"));
 const _util = __importStar(require("./soundcloudUtil/util"));
@@ -71,6 +75,6 @@ var SoundcloudUtil;
     SoundcloudUtil.validateMedia = _util.validateMedia;
     SoundcloudUtil.FORMATS = _transcoding.FORMATS;
     SoundcloudUtil.STREAMING_PROTOCOLS = _transcoding.STREAMING_PROTOCOLS;
-})(SoundcloudUtil = exports.SoundcloudUtil || (exports.SoundcloudUtil = {}));
+})(SoundcloudUtil || (exports.SoundcloudUtil = SoundcloudUtil = {}));
 exports.ValidationUtil = __importStar(require("./validation"));
 __exportStar(require("./queue"), exports);

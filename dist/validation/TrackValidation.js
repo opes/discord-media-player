@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePlayer = exports.validateNumber = exports.validateTrack = void 0;
+exports.validateTrack = validateTrack;
+exports.validateNumber = validateNumber;
+exports.validatePlayer = validatePlayer;
 const PlayerValidation_1 = require("./PlayerValidation");
 const PlayerError_1 = require("./PlayerError");
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -18,15 +20,12 @@ function validateTrack(track) {
     if ("metadata" in track && (typeof track.metadata !== "object" || track.metadata === null))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("object", "Track.metadata", track.metadata === null ? "null" : typeof track.metadata));
 }
-exports.validateTrack = validateTrack;
 function validateNumber(where, value) {
     if (typeof value !== "number")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("number", `Track.${where}`, typeof value));
     else if (!Number.isInteger(value))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.NotInteger(value));
 }
-exports.validateNumber = validateNumber;
 function validatePlayer(player) {
-    PlayerValidation_1.validatePlayer(player, "Track.player");
+    (0, PlayerValidation_1.validatePlayer)(player, "Track.player");
 }
-exports.validatePlayer = validatePlayer;

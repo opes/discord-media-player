@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePlayer = exports.validateConnection = exports.validateOptions = void 0;
+exports.validateOptions = validateOptions;
+exports.validateConnection = validateConnection;
+exports.validatePlayer = validatePlayer;
 const PlayerValidation_1 = require("./PlayerValidation");
 const PlayerError_1 = require("./PlayerError");
 const voice_1 = require("@discordjs/voice");
@@ -54,7 +56,6 @@ function validateOptions(options) {
     if ("createAudioPlayer" in options && typeof options.createAudioPlayer !== "function")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("function", "AudioManagerOptions.createAudioPlayer", typeof options.createAudioPlayer));
 }
-exports.validateOptions = validateOptions;
 /**
  * Validate the voice connection
  * @param connection The voice connection
@@ -65,12 +66,10 @@ function validateConnection(connection) {
     if (!(connection instanceof voice_1.VoiceConnection))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("VoiceConnection", "AudioManager.connection", connection));
 }
-exports.validateConnection = validateConnection;
 /**
  * Validate the audio player
  * @param player The audio player
  */
 function validatePlayer(player) {
-    PlayerValidation_1.validatePlayer(player, "AudioManager.createAudioPlayer()");
+    (0, PlayerValidation_1.validatePlayer)(player, "AudioManager.createAudioPlayer()");
 }
-exports.validatePlayer = validatePlayer;

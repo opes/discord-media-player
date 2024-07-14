@@ -5,7 +5,7 @@ let path;
 function deleteAndExit() {
     if (!path)
         return;
-    fs_1.rmSync(path, { recursive: true });
+    (0, fs_1.rmSync)(path, { recursive: true });
     process.exit(0);
 }
 process.on("message", (msg) => {

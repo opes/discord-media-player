@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePackets = void 0;
+exports.validatePackets = validatePackets;
 const PlayerError_1 = require("./PlayerError");
 function validatePackets(packets) {
     if (typeof packets !== "object" || packets === null)
@@ -8,4 +8,3 @@ function validatePackets(packets) {
     else if (!Array.isArray(packets))
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("Array", "PacketReader.packets", packets));
 }
-exports.validatePackets = validatePackets;

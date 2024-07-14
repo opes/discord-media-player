@@ -9,4 +9,4 @@ var SourceType;
     SourceType[SourceType["youtube"] = 0] = "youtube";
     SourceType[SourceType["soundcloud"] = 1] = "soundcloud";
     SourceType[SourceType["local"] = 2] = "local";
-})(SourceType = exports.SourceType || (exports.SourceType = {}));
+})(SourceType || (exports.SourceType = SourceType = {}));

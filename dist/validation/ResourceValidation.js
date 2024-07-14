@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validatePaused = exports.validatePlayer = exports.validateOptions = void 0;
+exports.validateOptions = validateOptions;
+exports.validatePlayer = validatePlayer;
+exports.validatePaused = validatePaused;
 const PlayerValidation_1 = require("./PlayerValidation");
 const PlayerError_1 = require("./PlayerError");
 const stream_1 = require("stream");
 const CacheWriter_1 = require("../cache/CacheWriter");
 const Cache_1 = require("../cache/Cache");
 function validatePlayerOption(player) {
-    PlayerValidation_1.validatePlayer(player, "ResourceOptions.player");
+    (0, PlayerValidation_1.validatePlayer)(player, "ResourceOptions.player");
 }
 function validateOptions(options) {
     if (typeof options !== "object" || options === null)
@@ -53,13 +55,10 @@ function validateOptions(options) {
     if ("isLive" in options && typeof options.isLive !== "boolean")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("boolean", "ResourceOptions.isLive", typeof options.isLive));
 }
-exports.validateOptions = validateOptions;
 function validatePlayer(player) {
-    PlayerValidation_1.validatePlayer(player, "Resource.player");
+    (0, PlayerValidation_1.validatePlayer)(player, "Resource.player");
 }
-exports.validatePlayer = validatePlayer;
 function validatePaused(paused) {
     if (typeof paused !== "boolean")
         throw new PlayerError_1.PlayerError(PlayerError_1.ErrorMessages.Expecting("boolean", "Resource.autoPaused", typeof paused));
 }
-exports.validatePaused = validatePaused;

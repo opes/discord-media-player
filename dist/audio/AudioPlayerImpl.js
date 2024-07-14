@@ -353,7 +353,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
             const ffmpeg = new prism_media_1.default.FFmpeg({ args: [...FILTER_FFMPEG_ARGS, filters.join(",")] });
             stream = stream.pipe(ffmpeg);
         }
-        return voice_1.createAudioResource(stream, {
+        return (0, voice_1.createAudioResource)(stream, {
             metadata: passthrough,
             silencePaddingFrames: 1,
             inputType: voice_1.StreamType.Raw,
@@ -421,7 +421,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
      * @internal
      */
     async _getYoutubeResource(url) {
-        const identifier = ytdl_core_1.getVideoID(url);
+        const identifier = (0, ytdl_core_1.getVideoID)(url);
         if (this.manager.cache?.youtube.hasCache(identifier)) {
             this._resource = await this.manager.cache.youtube.getResource(identifier);
             return;
@@ -445,7 +445,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
         const options = { highWaterMark: 1 << 14, dlChunkSize: 1 << 18, ...this.manager.youtube };
         let info = this._info;
         if (!info)
-            info = await ytdl_core_1.getInfo(url, options);
+            info = await (0, ytdl_core_1.getInfo)(url, options);
         const playability = info.player_response?.playabilityStatus;
         if (!playability) {
             this.manager.emit("audioError", this.guildID, url, ErrorCode_1.ErrorCode.youtubeNoPlayerResponse);
@@ -472,7 +472,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
             const resource = this._resource = new Resource_1.Resource({
                 identifier,
                 player: this,
-                source: ytdl_core_1.downloadFromInfo(info, options),
+                source: (0, ytdl_core_1.downloadFromInfo)(info, options),
                 demuxer: new prism_media_1.default.opus.WebmDemuxer(),
                 decoder: new prism_media_1.default.opus.Decoder({
                     rate: 48000,
@@ -482,7 +482,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
                 cacheWriter: new CacheWriter_1.CacheWriter(),
                 cache: this.manager.cache?.youtube
             });
-            stream_1.pipeline(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
+            (0, stream_1.pipeline)(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
             resource.cacheWriter.once("close", () => {
                 resource.source.destroy();
                 resource.demuxer.destroy();
@@ -499,13 +499,13 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
         const resource = this._resource = new Resource_1.Resource({
             identifier,
             player: this,
-            source: ytdl_core_1.downloadFromInfo(info, options),
+            source: (0, ytdl_core_1.downloadFromInfo)(info, options),
             decoder: new prism_media_1.default.FFmpeg({ args: FFMPEG_ARGS }),
             cacheWriter: new CacheWriter_1.CacheWriter(),
             cache: info.videoDetails.isLiveContent ? null : this.manager.cache?.youtube,
             isLive: info.videoDetails.isLiveContent
         });
-        stream_1.pipeline(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
+        (0, stream_1.pipeline)(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
         resource.cacheWriter.once("close", () => {
             resource.source.destroy();
             resource.decoder.destroy();
@@ -539,7 +539,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
             const resource = this._resource = new Resource_1.Resource({
                 identifier,
                 player: this,
-                source: await downloadMedia_1.downloadMedia(transcoding, await this.manager.soundcloud.getClientID(), this.manager.soundcloud.axios),
+                source: await (0, downloadMedia_1.downloadMedia)(transcoding, await this.manager.soundcloud.getClientID(), this.manager.soundcloud.axios),
                 demuxer: new prism_media_1.default.opus.OggDemuxer(),
                 decoder: new prism_media_1.default.opus.Decoder({
                     rate: 48000,
@@ -549,7 +549,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
                 cacheWriter: new CacheWriter_1.CacheWriter(),
                 cache: this.manager.cache?.soundcloud
             });
-            stream_1.pipeline(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
+            (0, stream_1.pipeline)(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
             resource.cacheWriter.once("close", () => {
                 resource.source.destroy();
                 resource.demuxer.destroy();
@@ -565,12 +565,12 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
         const resource = this._resource = new Resource_1.Resource({
             identifier,
             player: this,
-            source: await downloadMedia_1.downloadMedia(transcoding, await this.manager.soundcloud.getClientID(), this.manager.soundcloud.axios),
+            source: await (0, downloadMedia_1.downloadMedia)(transcoding, await this.manager.soundcloud.getClientID(), this.manager.soundcloud.axios),
             decoder: new prism_media_1.default.FFmpeg({ args: FFMPEG_ARGS }),
             cacheWriter: new CacheWriter_1.CacheWriter(),
             cache: this.manager.cache?.soundcloud
         });
-        stream_1.pipeline(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
+        (0, stream_1.pipeline)(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
         resource.cacheWriter.once("close", () => {
             resource.source.destroy();
             resource.decoder.destroy();
@@ -582,7 +582,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
     async _getLocalResource(location) {
         let fileHandle;
         try {
-            fileHandle = await promises_1.open(location, "r");
+            fileHandle = await (0, promises_1.open)(location, "r");
         }
         catch {
             this.manager.emit("audioError", this.guildID, location, ErrorCode_1.ErrorCode.cannotOpenFile);
@@ -594,7 +594,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
             this._resource = await this.manager.cache.local.getResource(identifier);
             return;
         }
-        const { stream, type } = await voice_1.demuxProbe(fs_1.createReadStream(location));
+        const { stream, type } = await (0, voice_1.demuxProbe)((0, fs_1.createReadStream)(location));
         const resource = this._resource = new Resource_1.Resource({
             identifier,
             player: this,
@@ -611,9 +611,9 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
             cache: this.manager.cache?.local
         });
         if ([voice_1.StreamType.WebmOpus, voice_1.StreamType.OggOpus].includes(type))
-            stream_1.pipeline(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
+            (0, stream_1.pipeline)(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop_1.noop);
         else
-            stream_1.pipeline(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
+            (0, stream_1.pipeline)(resource.source, resource.decoder, resource.cacheWriter, noop_1.noop);
         resource.cacheWriter.once("close", () => {
             resource.source.destroy();
             resource.decoder.destroy();
@@ -625,7 +625,7 @@ class AudioPlayerImpl extends tiny_typed_emitter_1.TypedEmitter {
     async _onAudioChange(oldState, newState) {
         if (oldState.status !== voice_1.AudioPlayerStatus.Buffering && newState.status === voice_1.AudioPlayerStatus.Buffering) {
             try {
-                await voice_1.entersState(this._player, voice_1.AudioPlayerStatus.Playing, this.manager.bufferTimeout);
+                await (0, voice_1.entersState)(this._player, voice_1.AudioPlayerStatus.Playing, this.manager.bufferTimeout);
             }
             catch {
                 if (this._player.state.status === voice_1.AudioPlayerStatus.Playing)

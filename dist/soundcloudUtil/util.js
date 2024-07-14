@@ -1,7 +1,9 @@
 "use strict";
 // Copied from "https://www.npmjs.com/package/soundcloud-downloader"
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateMedia = exports.appendURL = exports.handleRequestErrs = void 0;
+exports.handleRequestErrs = handleRequestErrs;
+exports.appendURL = appendURL;
+exports.validateMedia = validateMedia;
 /**
  * Handle axios error
  * @param err The axios error
@@ -20,7 +22,6 @@ function handleRequestErrs(err) {
         err.message += ", could not find the song... it may be private - check the URL";
     return err;
 }
-exports.handleRequestErrs = handleRequestErrs;
 /**
  * Append parameters into url
  * @param baseURL The base url
@@ -37,7 +38,6 @@ function appendURL(baseURL, ...params) {
     });
     return url.href;
 }
-exports.appendURL = appendURL;
 /**
  * Validate the media transcoding
  * @param media The media transcoding
@@ -50,4 +50,3 @@ function validateMedia(media) {
         return false;
     return true;
 }
-exports.validateMedia = validateMedia;

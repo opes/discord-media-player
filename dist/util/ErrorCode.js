@@ -13,4 +13,4 @@ var ErrorCode;
     ErrorCode[ErrorCode["youtubeLoginRequired"] = 4] = "youtubeLoginRequired";
     ErrorCode[ErrorCode["noResource"] = 5] = "noResource";
     ErrorCode[ErrorCode["timedOut"] = 6] = "timedOut";
-})(ErrorCode = exports.ErrorCode || (exports.ErrorCode = {}));
+})(ErrorCode || (exports.ErrorCode = ErrorCode = {}));

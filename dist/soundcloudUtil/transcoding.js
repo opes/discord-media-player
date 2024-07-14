@@ -11,7 +11,7 @@ var STREAMING_PROTOCOLS;
 (function (STREAMING_PROTOCOLS) {
     STREAMING_PROTOCOLS["HLS"] = "hls";
     STREAMING_PROTOCOLS["PROGRESSIVE"] = "progressive";
-})(STREAMING_PROTOCOLS = exports.STREAMING_PROTOCOLS || (exports.STREAMING_PROTOCOLS = {}));
+})(STREAMING_PROTOCOLS || (exports.STREAMING_PROTOCOLS = STREAMING_PROTOCOLS = {}));
 /**
  * The format (mime_type) of media transcoding
  *
@@ -21,4 +21,4 @@ var FORMATS;
 (function (FORMATS) {
     FORMATS["MP3"] = "audio/mpeg";
     FORMATS["OPUS"] = "audio/ogg; codecs=\"opus\"";
-})(FORMATS = exports.FORMATS || (exports.FORMATS = {}));
+})(FORMATS || (exports.FORMATS = FORMATS = {}));
