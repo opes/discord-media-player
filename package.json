@@ -1,6 +1,6 @@
 {
   "name": "discord-media-player",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "@discordjs/voice wrapper to manage audio resource easier",
   "main": "dist/index.js",
   "types": "index.d.ts",
@@ -10,7 +10,7 @@
     "soundcloud-downloader": "^1.0.0",
     "tiny-typed-emitter": "^2.1.0",
     "youtube-scrapper": "^1.4.0",
-    "ytdl-core": "^4.11.5"
+    "@distube/ytdl-core": "^4.13.5"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
@@ -20,7 +20,7 @@
     "dts-bundle": "^0.7.3",
     "eslint": "^7.32.0",
     "patch-package": "^6.5.1",
-    "typedoc": "^0.21.5",
+    "typedoc": "^0.26.4",
     "typedoc-plugin-sourcefile-url": "^1.0.6",
     "typescript": "^5.5.3"
   },
