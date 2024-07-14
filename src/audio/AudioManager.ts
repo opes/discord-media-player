@@ -1,7 +1,7 @@
 import type { ErrorCode } from "../util/ErrorCode"
 import type { CacheManager } from "../cache/CacheManager"
 import type { VoiceConnection } from "@discordjs/voice"
-import type { downloadOptions } from "ytdl-core"
+import type { downloadOptions } from "@distube/ytdl-core"
 import type { AudioPlayer } from "./AudioPlayer"
 
 import SCDL from "soundcloud-downloader"
@@ -81,7 +81,7 @@ export interface AudioManagerEvents {
 export class AudioManager extends TypedEmitter<AudioManagerEvents> {
   /**
    * Emitted whenever an audio is started playing
-   * 
+   *
    * Listener must implement {@link AudioManagerEvents.audioStart | AudioStartCallback}
    * @event
    */
@@ -89,7 +89,7 @@ export class AudioManager extends TypedEmitter<AudioManagerEvents> {
 
   /**
    * Emitted whenever an audio is ended after playing
-   * 
+   *
    * Listener must implement {@link AudioManagerEvents.audioEnd | AudioEndCallback}
    * @event
    */
@@ -97,7 +97,7 @@ export class AudioManager extends TypedEmitter<AudioManagerEvents> {
 
   /**
    * Emitted whenever an error is thrown while getting audio source before playing
-   * 
+   *
    * Listener must implement {@link AudioManagerEvents.audioError | AudioErrorCallback}
    * @event
    */
@@ -119,7 +119,7 @@ export class AudioManager extends TypedEmitter<AudioManagerEvents> {
    * The downloadOptions (ytdl-core) when getting audio source
    */
   public readonly youtube: downloadOptions
-  
+
   /**
    * @internal
    */

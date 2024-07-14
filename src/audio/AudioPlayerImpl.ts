@@ -5,7 +5,7 @@ import type { AudioPlayer, PlayerEvents } from "./AudioPlayer"
 import type { VoiceConnection, VoiceConnectionReadyState, VoiceConnectionState, AudioPlayerPlayingState, AudioPlayerState, AudioResource } from "@discordjs/voice"
 import type { Transcoding } from "../soundcloudUtil/transcoding"
 import type { TrackInfo } from "soundcloud-downloader/src/info"
-import type { videoFormat, videoInfo } from "ytdl-core"
+import type { videoFormat, videoInfo } from "@distube/ytdl-core"
 import type { FileHandle } from "fs/promises"
 
 import prism from "prism-media"
@@ -17,7 +17,7 @@ import { CacheWriter } from "../cache/CacheWriter"
 import { downloadMedia } from "../soundcloudUtil/downloadMedia"
 import { demuxProbe, entersState, StreamType, AudioPlayer as DiscordPlayer, AudioPlayerStatus, VoiceConnectionStatus, createAudioResource } from "@discordjs/voice"
 import { PlayerError, ErrorMessages, AudioPlayerValidation as playerValidation } from "../validation"
-import { getVideoID, getInfo, downloadFromInfo } from "ytdl-core"
+import { getVideoID, getInfo, downloadFromInfo } from "@distube/ytdl-core"
 import { TypedEmitter } from "tiny-typed-emitter"
 import { PassThrough, pipeline } from "stream"
 import { open as fsOpen } from "fs/promises"
@@ -82,7 +82,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
    * @internal
    */
   public manager: AudioManager = null
-  
+
   /**
    * @internal
    */
@@ -306,7 +306,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
     this._stopping = true
     const stopped = this._player.stop()
     this._stopping = false
-    
+
     if (!stopped) {
       if (this._resource.player === this) this._resource.player = null
 
@@ -315,7 +315,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
 
     return stopped
   }
-  
+
   /**
    * @internal
    */
@@ -346,7 +346,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
    */
   filter(): void {
     this._checkPlaying()
-    
+
     const player = this._resource.player
     this._audio.unpipe()
 
@@ -590,7 +590,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
       return
     } else if (["UNPLAYABLE", "LOGIN_REQUIRED"].includes(playability.status)) {
       let errCode: ErrorCode
-        
+
       switch(playability.status) {
         case "UNPLAYABLE":
           errCode = ErrorCode.youtubeUnplayable
@@ -782,7 +782,7 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
       cacheWriter: new CacheWriter(),
       cache: this.manager.cache?.local
     })
-    
+
     if ([StreamType.WebmOpus, StreamType.OggOpus].includes(type)) pipeline(resource.source, resource.demuxer, resource.decoder, resource.cacheWriter, noop)
     else pipeline(resource.source, resource.decoder, resource.cacheWriter, noop)
 
@@ -819,41 +819,41 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
       try {
         if (!(this._aborting || this._stopping) && this._playResourceOnEnd && !this._resource.allCached) {
           this._playResourceOnEnd = false
-  
+
           if (this._resource.player && this._resource.player !== this) (this._resource.player as AudioPlayerImpl)._switchCache()
-  
+
           this._playResource()
           return
         }
-  
+
         if (this._resource.player === this) {
           if (!this.manager.cache && !this._resource.cacheWriter.destroyed) this._resource.cacheWriter.read()
-  
+
           this._resource.player = null
         } else this._audio.destroy()
-  
+
         if (!this._aborting) {
           this._playing = false
           this._playResourceOnEnd = false
-  
+
           if (!this.manager.cache || this._resource.isLive) this._resource.cacheWriter.destroy()
-  
+
           if (!this._disconnected) {
             if (this._resource.isLive) {
               const stopping = this._stopping
               const cachedSeconds = this._resource.cachedSecond
-  
+
               await this._getYoutubeResource(this._urlOrLocation)
-  
+
               if (this._looping || (this._resource.isLive && !stopping)) {
                 if (this._looping && !(this._resource.isLive && !stopping)) {
                   this._emitEnd()
                   this.manager.emit("audioStart", this.guildID, this._urlOrLocation)
                 } else this._resource.cachedSecond = cachedSeconds
-  
+
                 this._playing = true
                 this._playResource()
-  
+
                 return
               }
             } else if (this._looping) {
@@ -862,32 +862,32 @@ export class AudioPlayerImpl extends TypedEmitter<PlayerEvents> implements Audio
                   this.manager.emit("audioError", this.guildID, this._urlOrLocation, ErrorCode.noResource)
                   this._cleanup()
                   this.emit("end")
-  
+
                   return
                 }
-  
+
                 this._playCache()
               } else {
                 await this._getResource(this._urlOrLocation, this._sourceType)
-  
+
                 if (!this._resource) {
                   this._emitEnd(false)
                   this._cleanup()
                   this.emit("end")
                   return
                 }
-  
+
                 this._playResource()
               }
-  
+
               this._emitEnd()
               this._playing = true
               this.manager.emit("audioStart", this.guildID, this._urlOrLocation)
-  
+
               return
             }
           }
-  
+
           this._emitEnd(false)
           this._cleanup()
           this.emit("end")
